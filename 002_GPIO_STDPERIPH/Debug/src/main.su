@@ -1,6 +1,0 @@
-main.c:16:5:main	8	static
-main.c:32:6:GPIO_Config	8	static
-main.c:85:6:delay	16	static
-main.c:90:6:GPIO_LED_button_toggle	8	static
-main.c:102:6:GPIO_LED_button_counter	16	static
-main.c:141:6:GPIO_7segment	8	static
