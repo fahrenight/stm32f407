@@ -1,0 +1,33 @@
+
+#include "stm32f4xx.h"
+
+extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
+uint32_t systemClock;
+
+void RCC_Config(void);
+
+int main(void)
+{
+
+	RCC_DeInit();
+	SystemCoreClockUpdate();
+	systemClock = SystemCoreClock;
+	RCC_Config();
+
+  while (1)
+  {
+
+  }
+}
+
+
+
+void RCC_Config(void){
+	RCC->CR |= 1<<16;
+	while(!(RCC->CR & ~(1<<17)));
+	RCC->CR |= 1<<19;
+
+	RCC->CR = 0x00000000;
+
+
+}

@@ -1,0 +1,79 @@
+
+#include "stm32f4xx.h"
+
+extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
+uint32_t systemClock;
+
+
+
+void RCC_Config(void);
+
+
+
+int main(void)
+{
+	systemClock = SystemCoreClock; // Sistemi bizim istediðimiz deðiþkene eþitleyerek sistemin frekansýný deðiþtirebiliriz.
+//Burada sistem frekansi 168 MHz oldugu gorulmelidir.
+//	RCC_DeInit(); // HSIEN and PLL OFF yani internal osilatör devreye alýndý ve PLL kapatýldý. Böylece sistemin kendi hýzýna yani
+//stm32f4 ün içindeki 16MHz lik ilk osilatöre geçiþ yapýlmýþ oldu.Fakat bu iþlem tek baþýna yeterli olmaz. Çünkü sisteme yüklemek
+//için
+//	SystemCoreClockUpdate(); // fonksiyonu kullanýlmalýdýr. Bu fonksiyon core clock unu günceller. 16MHz ye çekildi þu anda.
+
+	systemClock = SystemCoreClock; //Burada sistem frekansinin 16MHz ye cekilmis oldugu goruldu.
+
+	RCC_Config(); // Ýlk iþlem olarak RCC registerinin ayarlamalarini yapmaya baslayalim
+
+
+
+
+
+
+
+
+
+
+
+
+  while (1)
+  {
+
+  }
+}
+
+
+
+void RCC_Config(void){
+//	RCC ->CR &= 0x00000083; //Control Registerini reset deðerine eþitledik. Fakat Reset durumunda HSI = 1 olduðu için
+	//için bu kýsýmlarýn da 0lanmasý gerekir. O yüzden;
+	RCC->CR &= 0x00000000; //ifadesi daha doðru bir ifade olacaktýr.
+	//veya direkt olarak ilgili biti 0 yaparak da iþlem yapabiliriz.
+	RCC->CR &= ~(1 << 0); //(~ simgesi Alt + 0126 ile yazýlýr). Burada 1 ifadesi 0. biteyazýldýktan sonra terslendi ve AND iþlemi
+	//ile 0. bit 0x0.Bit þeklinde 0landý.
+	RCC->CR |= 1 << 16; //1ifadesini 16 bit kaydýr. 16. bitte HSEON olduðu için HSE 6 saykýl sonra açýlacaktýr. Þimdi HSERDY
+	//flagini takip edip açýlýp açýlmadýðýný kontrol edeceðiz.
+	while(!(RCC->CR & (1 << 17))); // while true olduðu sürece çalýþtýðý için HSERDY ilk baþta 0! yani 1 olacaktýr. Flag kalktýktan
+	//sonra HSERDY = 1! yani 0 olacak ve while dan çýkacaktýr.
+	RCC ->CR |= 1<<19; //1 sayýsýný 19 defa left shift yaptýrarak CSSON bitini aktif hale getirdik.
+
+
+    RCC->PLLCFGR = 0x00000000; // PLLCFGR registerýný tamamen sýfýrla
+    RCC->PLLCFGR |= (4 << 0); // PLL_M bölme oraný ayarla
+    RCC->PLLCFGR |= (168 << 6); // PLL_N ayarla
+    RCC->PLLCFGR |= (2 << 16); // PLL_P ayarla
+    SystemCoreClockUpdate();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

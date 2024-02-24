@@ -1,0 +1,36 @@
+
+#include "stm32f4xx.h"
+
+extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
+uint32_t systemClock;
+
+void RCC_Config(void);
+
+int main(void)
+{
+	systemClock = SystemCoreClock; // Sistemi bizim istediðimiz deðiþkene eþitleyerek sistemin frekansýný deðiþtirebiliriz.
+//Burada sistem frekansi 168 MHz oldugu gorulmelidir.
+	//RCC_DeInit(); // HSIEN and PLL OFF yani internal osilatör devreye alýndý ve PLL kapatýldý. Böylece sistemin kendi hýzýna yani
+//stm32f4 ün içindeki 16MHz lik ilk osilatöre geçiþ yapýlmýþ oldu.Fakat bu iþlem tek baþýna yeterli olmaz. Çünkü sisteme yüklemek
+//için
+	//SystemCoreClockUpdate(); // fonksiyonu kullanýlmalýdýr. Bu fonksiyon core clock unu günceller. 16MHz ye çekildi þu anda.
+
+	//systemClock = SystemCoreClock; //Burada sistem frekansinin 16MHz ye cekilmis oldugu goruldu.
+
+	RCC_Config(); // Ýlk iþlem olarak RCC registerinin ayarlamalarini yapmaya baslayalim
+
+  while (1)
+  {
+
+  }
+}
+
+
+
+void RCC_Config(void){
+	//	RCC ->CR &= 0x00000083; //Control Registerini reset deðerine eþitledik. Fakat Reset durumunda HSI = 1 olduðu için
+		//için bu kýsýmlarýn da 0lanmasý gerekir. O yüzden;
+		RCC->CR = 0x00000000; //ifadesi daha doðru bir ifade olacaktýr.
+		//veya direkt olarak ilgili biti 0 yaparak da iþlem yapabiliriz.
+
+}

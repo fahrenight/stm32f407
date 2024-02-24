@@ -1,0 +1,54 @@
+#include "stm32f4xx.h"
+
+extern uint32_t SystemCoreClock;
+uint32_t systemClock;
+int count = 0;
+
+void RCC_Config(void);
+void delay(time);
+
+int main(void)
+{
+	RCC_Config();
+
+  while (1)
+  {
+	  if(GPIOA->IDR & 0x00000001);{
+		  while(GPIOA->IDR & 0x00000001);
+		  delay(1680000);
+		  count++;
+	  }
+	  if(count % 2 == 0)
+		  GPIOD->ODR = 0x00000000; //LEDs turn off
+	  else
+		  GPIOD->ODR = 0x0000F000; //LEDS Turn on
+  }
+}
+
+void RCC_Config(void){ //SELECT FREQUENCY AS 168 MHz
+	RCC->CR |= 0x00030000; //HSEON and HSEONRDY enable
+	while(!(RCC->CR & 0x00020000)); //HSEON Ready flag check
+	RCC->CR |=0x00080000; //CSS Eable
+	RCC->PLLCFGR |= 0x00400000; //PLL select HSE
+	RCC->PLLCFGR |= 0x00000003; //PLL M = 4
+	RCC->PLLCFGR |= 0x00005A00; //PLL N = 168
+	RCC->PLLCFGR |= 0x00000000; //PLL P = 2
+
+	RCC->CFGR |= 0x00000000; //AHB1 Prescaler = 1
+	RCC->CFGR |= 0x00080000; //APB2 Prescaler = 2
+	RCC->CFGR |= 0x00001400; //APB1 Prescaler = 4
+
+	RCC->CIR |= 0x00080000; //HSERDY Flag Clear
+	RCC->CIR |= 0x00800000; //CSS Flag Clear
+
+	RCC->AHB1ENR = 0x00000009; //AHB1 Enable
+
+	GPIOD->MODER = 0x55000000; //GPIOD Output Mode
+	GPIOD->OTYPER = 0x00000000; //GPIOD Push pull Type
+	GPIOD->OSPEEDR = 0xFF000000; //GPIOD HighSpeed selected
+	GPIOD->PUPDR = 0x00000000; //PU-PD selected as No pullup - pull down
+
+}
+void delay(time){
+	while(time--);
+}

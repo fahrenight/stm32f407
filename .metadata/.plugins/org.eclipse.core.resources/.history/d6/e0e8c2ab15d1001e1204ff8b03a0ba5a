@@ -1,0 +1,66 @@
+
+#include "stm32f4xx.h"
+
+extern uint32_t SystemCoreClock;
+uint32_t systemClock;
+int count;
+
+void RCC_Config(void);
+void GPIO_Config(void);
+void delay(uint32_t time);
+
+int main(void)
+{
+	RCC_Config();
+	SystemCoreClockUpdate();
+	systemClock = SystemCoreClock;
+
+	GPIO_Config();
+  while (1)
+  {
+	  if(GPIOA->IDR & 0x00000001){
+		  while(GPIOA->IDR & 0x00000001);
+		  delay(1680000);
+
+		  count++;
+	  }
+	  if(count%2 == 0)
+		  GPIOD->ODR = 0x00000000;
+	  else
+		  GPIOD->ODR = 0x0000F000;
+  }
+}
+
+void RCC_Config(void){ //SELECT FREQUENCY AS 168 MHz
+	RCC->CR |= 0x00020000; // HSEON and HSEONRDY enable
+	while(!(RCC->CR & 0x00080000)); // CSS enable
+	RCC->PLLCFGR |= 0x00405A04; // PLL seleect HSE, PLLM=4,PLLN=168,PLLP=2
+	RCC->CFGR |= 0x00000000; //AHB Prescaler =1
+	RCC->CFGR |= 0x00080000; //APB2 Prescaler =2
+	RCC->CFGR |= 0x00001400; //APB1 Prescaler =4
+	//YAPTIGIMIZ ISLEMLERDE KALKAN FLAGLERI TEKRAR INDIRMEK ICIN BUNU YAPMALIYIZ
+	RCC->CIR |= 0x00080000; //HSE Ready Flag Clear
+	RCC->CIR |= 0x00800000; //CSS Flag clear
+
+}
+void GPIO_Config(void){
+	//RCC_AHB1ENR Register
+	RCC->AHB1ENR |= 0x00000009;
+
+	//MODER Register
+	GPIOD->MODER = 0x55000000; // 12,13,14,15th pins are output
+	GPIOA->MODER = 0x00000000; // GPIOA input
+	// OTYPER Register
+	GPIOD->OTYPER = 0x00000000; //Push Pull
+	GPIOA->OTYPER = 0x00000000; //PushPull
+	//GPIOx_OSPEEDR Register
+	GPIOD->OSPEEDR |= 0xFF000000; //100 MHz
+	GPIOD->OSPEEDR |= 0xFF000000; //100MHz
+	//GPIOx_PUPDR Register
+	GPIOD->PUPDR = 0x00000000; //No pullýp-pulldown
+	GPIOD->PUPDR = 0x00000001;//No pullýp-pulldown
+}
+
+void delay(uint32_t time){
+	time--;
+}

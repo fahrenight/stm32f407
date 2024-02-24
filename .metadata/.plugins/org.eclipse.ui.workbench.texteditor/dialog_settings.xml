@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="PLL_M" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="PLL_M"/>
+			<item value="SystemInit"/>
+			<item value="Reset_Handler"/>
+			<item value="GPIO_Pin"/>
+			<item value="GPIO_PuPd"/>
+			<item value="GPIO_OType"/>
+			<item value="HSE_VALUE"/>
+			<item value="25000000"/>
+		</list>
+		<list key="replacehistory">
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="336" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="454" key="DIALOG_HEIGHT"/>
+		<item value="1560" key="DIALOG_X_ORIGIN"/>
+		<item value="175" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>
