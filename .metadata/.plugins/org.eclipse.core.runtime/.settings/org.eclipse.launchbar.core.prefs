@@ -1,6 +1,6 @@
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
-configDescList=
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:003_REG_MULTI_INTERRUPT.elf
 eclipse.preferences.version=1
 org.eclipse.launchbar.core.descriptorType.default\:001_REG_SYS_CFG.elf/activeLaunchMode=debug
 org.eclipse.launchbar.core.descriptorType.default\:001_REG_SYS_CFG.elf/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
@@ -12,3 +12,5 @@ org.eclipse.launchbar.core.descriptorType.default\:002_REG_GPIO_BUTTON_LED.elf/a
 org.eclipse.launchbar.core.descriptorType.default\:002_REG_GPIO_BUTTON_LED.elf/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
 org.eclipse.launchbar.core.descriptorType.default\:003_IT_STD.elf/activeLaunchMode=debug
 org.eclipse.launchbar.core.descriptorType.default\:003_IT_STD.elf/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:003_REG_MULTI_INTERRUPT.elf/activeLaunchMode=debug
+org.eclipse.launchbar.core.descriptorType.default\:003_REG_MULTI_INTERRUPT.elf/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
